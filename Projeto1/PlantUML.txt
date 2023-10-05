@@ -22,33 +22,33 @@ abstract class Produto {
     +getPreco(): Double
 }
 
-abstract class Camiseta {
+abstract class Camiseta extends Produto{
     #tipo: String
     #tamanho: String
     +abstract getDescricao(): String
 }
 
-class CamisetaLonga {
+class CamisetaLonga extends Camiseta{
     -tipo: String
     +getDescricao(): String
 }
 
-class CamisetaCurta {
+class CamisetaCurta extends Camiseta{
     -tipo: String
     +getDescricao(): String
 }
 
-abstract class Caneca {
+abstract class Caneca extends Produto{
     #material: String
     +abstract getDescricao(): String
 }
 
-class CanecaSimples {
+class CanecaSimples extends Caneca{
     -material: String
     +getDescricao(): String
 }
 
-class CanecaPremium {
+class CanecaPremium extends Caneca{
     -material: String
     +getDescricao(): String
 }
@@ -74,16 +74,16 @@ class Gerente extends Funcionario{
 
 interface Cliente {
     +abstract getNome(): String
-    +abstract getPreferencias(): String
     +abstract getHistoricoCompras(): List<Venda>
+    +abstract getPreferencias(): String
 }
 
 class Turista implements Cliente {
     -nome: String
     -preferencias: String
     +getNome(): String
-    +getPreferencias(): String
     +getHistoricoCompras(): List<Venda>
+    +getPreferencias(): String
 }
 
 class MoradorLocal implements Cliente {
@@ -92,10 +92,10 @@ class MoradorLocal implements Cliente {
     -endereco: String
     -historicoCompras: List<Venda>
     +getNome(): String
-    +getEndereco(): String
     +getHistoricoCompras(): List<Venda>
     +getPreferenciasLocais(): String
-    +realizarPedidoLocal(): void
+    +getEndereco(): String
+    +reservarProduto(): void
 }
 
 
@@ -134,16 +134,6 @@ Quiosque --> Cliente
 Estoque *-- Produto
 
 Cliente --> Venda
-
-Produto <|-- Camiseta
-Produto <|-- Caneca
-
-Camiseta <|-- CamisetaLonga
-Camiseta <|-- CamisetaCurta
-
-Caneca <|-- CanecaSimples
-Caneca <|-- CanecaPremium
-
 
 Venda "1"--o "*" Produto
 Venda "1"-- Cliente
