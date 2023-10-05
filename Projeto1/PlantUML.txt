@@ -1,0 +1,151 @@
+@startuml
+interface Pagamento {
+    +abstract efetuarPagamento(): void
+}
+
+class PagamentoEmDinheiro implements Pagamento{
+    +efetuarPagamento(): void
+}
+
+class PagamentoEmCartao implements Pagamento{
+    +efetuarPagamento(): void
+}
+
+class PagamentoViaPIX implements Pagamento{
+    +efetuarPagamento(): void
+}
+
+abstract class Produto {
+    #nome: String
+    #preco: Double
+    +getNome(): String
+    +getPreco(): Double
+}
+
+abstract class Camiseta {
+    #tipo: String
+    #tamanho: String
+    +abstract getDescricao(): String
+}
+
+class CamisetaLonga {
+    -tipo: String
+    +getDescricao(): String
+}
+
+class CamisetaCurta {
+    -tipo: String
+    +getDescricao(): String
+}
+
+abstract class Caneca {
+    #material: String
+    +abstract getDescricao(): String
+}
+
+class CanecaSimples {
+    -material: String
+    +getDescricao(): String
+}
+
+class CanecaPremium {
+    -material: String
+    +getDescricao(): String
+}
+
+
+
+abstract class Funcionario {
+    #nome: String
+    #salario: Double
+    +getNome(): String
+    +abstract getSalario(): Double
+}
+
+class Vendedor extends Funcionario{
+    +vender(): void
+    +getSalario(): Double
+}
+
+class Gerente extends Funcionario{
+    +gerenciar(): void
+    +getSalario(): Double
+}
+
+interface Cliente {
+    +abstract getNome(): String
+    +abstract getPreferencias(): String
+    +abstract getHistoricoCompras(): List<Venda>
+}
+
+class Turista implements Cliente {
+    -nome: String
+    -preferencias: String
+    +getNome(): String
+    +getPreferencias(): String
+    +getHistoricoCompras(): List<Venda>
+}
+
+class MoradorLocal implements Cliente {
+    -nome: String
+    -preferencias: String
+    -endereco: String
+    -historicoCompras: List<Venda>
+    +getNome(): String
+    +getEndereco(): String
+    +getHistoricoCompras(): List<Venda>
+    +getPreferenciasLocais(): String
+    +realizarPedidoLocal(): void
+}
+
+
+class Estoque {
+    -produtos: List<Produto>
+    +adicionarProduto(): void
+    +removerProduto(): void
+    +verificarDisponibilidade(): Boolean
+}
+
+
+class Venda {
+    -itens: List<Produto>
+    -cliente: Cliente
+    -metodoPagamento: Pagamento
+    +getItens(): List<Produto>
+    +getCliente(): Cliente
+    +getMetodoPagamento(): Pagamento
+}
+
+class Quiosque {
+    -estoque: Estoque
+    -funcionarios: List<Funcionario>
+    -clientes: List<Cliente>
+    +realizarVenda(): void
+    +interagirCliente(): void
+    +gerarRelatorio(): void
+}
+
+
+
+Quiosque --> Estoque
+Quiosque --> Funcionario
+Quiosque --> Cliente
+
+Estoque *-- Produto
+
+Cliente --> Venda
+
+Produto <|-- Camiseta
+Produto <|-- Caneca
+
+Camiseta <|-- CamisetaLonga
+Camiseta <|-- CamisetaCurta
+
+Caneca <|-- CanecaSimples
+Caneca <|-- CanecaPremium
+
+
+Venda "1"--o "*" Produto
+Venda "1"-- Cliente
+Venda --> Pagamento
+@enduml
